@@ -18,7 +18,24 @@ public static class CsvStockLoader
 
         if (!File.Exists(path))
         {
-            throw new FileNotFoundException($"CSV file not found: {path}", path);
+            string[] candidates =
+            [
+                path,
+                Path.Combine("custom-mlp-backprop-cs", path),
+                Path.Combine(AppContext.BaseDirectory, path),
+                Path.Combine(AppContext.BaseDirectory, "..", "..", "..", path),
+                Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", path)
+            ];
+
+            string? found = candidates.FirstOrDefault(File.Exists);
+            if (found != null)
+            {
+                path = Path.GetFullPath(found);
+            }
+            else
+            {
+                throw new FileNotFoundException($"CSV file not found: {path}", path);
+            }
         }
 
         var dataPoints = new List<StockDataPoint>();
