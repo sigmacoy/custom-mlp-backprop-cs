@@ -4,7 +4,7 @@ using custom_mlp_backprop_cs.Env;
 using custom_mlp_backprop_cs.NN;
 using custom_mlp_backprop_cs.Training;
 
-// Hyperparameters (from SPEC.md)
+// Hyperparameters
 const int HiddenSize = 64;
 const double LearningRate = 0.001;
 const double Gamma = 0.99;
