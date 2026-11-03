@@ -1,15 +1,15 @@
 namespace custom_mlp_backprop_cs.Data;
 
-/// <summary>
+
 /// Provides chronological train/test splitting for time series data.
 /// Maintains temporal order (no shuffling) to prevent data leakage.
-/// </summary>
+
 public static class TrainTestSplitter
 {
-    /// <summary>
+    
     /// Splits features chronologically into train and test sets.
     /// Train set = first <paramref name="trainRatio"/> portion, Test set = remaining portion.
-    /// </summary>
+    
     /// <param name="features">Feature array of shape (N, F) where N = timesteps, F = features.</param>
     /// <param name="trainRatio">Proportion of data to use for training (default 0.8 = 80%). Must be in (0, 1).</param>
     /// <returns>A tuple of (trainFeatures, testFeatures) where both are jagged arrays.</returns>
@@ -57,10 +57,10 @@ public static class TrainTestSplitter
         return (trainFeatures, testFeatures);
     }
 
-    /// <summary>
+
     /// Splits features and corresponding labels chronologically into train and test sets.
     /// Useful when you have both features and labels that need to be split in the same way.
-    /// </summary>
+
     /// <param name="features">Feature array of shape (N, F).</param>
     /// <param name="labels">Label array of shape (N,) or (N, L).</param>
     /// <param name="trainRatio">Proportion of data to use for training (default 0.8 = 80%).</param>
@@ -89,9 +89,9 @@ public static class TrainTestSplitter
         return ((trainFeatures, trainLabels), (testFeatures, testLabels));
     }
 
-    /// <summary>
+
     /// Splits features and corresponding 2D labels (e.g., multi-output) chronologically.
-    /// </summary>
+
     /// <param name="features">Feature array of shape (N, F).</param>
     /// <param name="labels">Label array of shape (N, L).</param>
     /// <param name="trainRatio">Proportion of data to use for training (default 0.8 = 80%).</param>
@@ -120,9 +120,8 @@ public static class TrainTestSplitter
         return ((trainFeatures, trainLabels), (testFeatures, testLabels));
     }
 
-    /// <summary>
     /// Splits a 1D array chronologically into train and test sets.
-    /// </summary>
+
     /// <param name="array">Array to split.</param>
     /// <param name="trainRatio">Proportion of data to use for training (default 0.8 = 80%).</param>
     /// <returns>A tuple of (trainArray, testArray).</returns>

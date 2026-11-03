@@ -1,13 +1,12 @@
 namespace custom_mlp_backprop_cs.Env;
 
-/// <summary>
+
 /// Calculates rewards for the DQN trading agent based on portfolio value changes, transaction costs, and risk penalties.
-/// </summary>
 public static class RewardCalculator
 {
-    /// <summary>
+    
     /// Computes the reward for a state transition.
-    /// </summary>
+    
     /// <param name="oldPortfolioValue">Portfolio value before the action.</param>
     /// <param name="newPortfolioValue">Portfolio value after the action.</param>
     /// <param name="transactionCost">Transaction cost incurred (fee paid). Positive value = cost/fee paid.</param>
@@ -58,9 +57,9 @@ public static class RewardCalculator
         return reward;
     }
 
-    /// <summary>
+    
     /// Computes the reward using the default risk aversion of 1.0 and no scaling.
-    /// </summary>
+    
     /// <param name="oldPortfolioValue">Portfolio value before the action.</param>
     /// <param name="newPortfolioValue">Portfolio value after the action.</param>
     /// <param name="transactionCost">Transaction cost incurred (fee paid).</param>
@@ -77,9 +76,9 @@ public static class RewardCalculator
         return CalculateReward(oldPortfolioValue, newPortfolioValue, transactionCost, currentVolatility, maxPortfolioValue, 1.0, 1.0);
     }
 
-    /// <summary>
+    
     /// Computes the reward with custom risk aversion but default scaling.
-    /// </summary>
+    
     /// <param name="oldPortfolioValue">Portfolio value before the action.</param>
     /// <param name="newPortfolioValue">Portfolio value after the action.</param>
     /// <param name="transactionCost">Transaction cost incurred (fee paid).</param>

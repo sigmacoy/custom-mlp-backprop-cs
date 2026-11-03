@@ -1,77 +1,62 @@
 namespace custom_mlp_backprop_cs.NN;
 
-/// <summary>
 /// Specifies the activation function type for a neural network layer.
-/// </summary>
 public enum ActivationType
 {
-    /// <summary>
+
     /// Rectified Linear Unit (ReLU) activation: max(0, x). Used for hidden layers.
-    /// </summary>
     ReLU,
 
-    /// <summary>
+
     /// Linear (identity) activation: f(x) = x. Used for output layers.
-    /// </summary>
     Linear
 }
 
-/// <summary>
 /// Represents a fully connected layer in a neural network.
 /// Supports forward and backward propagation with ReLU or Linear activation.
-/// </summary>
 public class Layer
 {
     private readonly Random _rng;
     private Matrix? _weightGradients;
     private Matrix? _biasGradients;
 
-    /// <summary>
+
     /// Gets the number of input neurons (fan-in).
-    /// </summary>
     public int InputSize { get; }
 
-    /// <summary>
+
     /// Gets the number of output neurons (fan-out).
-    /// </summary>
     public int OutputSize { get; }
 
-    /// <summary>
+
     /// Gets the activation function type used by this layer.
-    /// </summary>
     public ActivationType ActivationType { get; }
 
-    /// <summary>
+
     /// Gets the weight matrix of shape [OutputSize, InputSize].
-    /// </summary>
     public Matrix Weights { get; }
 
-    /// <summary>
+
     /// Gets the bias matrix of shape [OutputSize, 1].
-    /// </summary>
     public Matrix Biases { get; }
 
-    /// <summary>
+
     /// Gets the last input received during forward pass, stored for backpropagation.
     /// Shape: [InputSize, 1] (column vector).
-    /// </summary>
     public Matrix LastInput { get; private set; }
 
-    /// <summary>
+
     /// Gets the last output produced during forward pass (after activation), stored for backpropagation.
     /// Shape: [OutputSize, 1] (column vector).
-    /// </summary>
     public Matrix LastOutput { get; private set; }
 
-    /// <summary>
+
     /// Gets the last pre-activation values (before activation function), stored for backpropagation.
     /// Shape: [OutputSize, 1] (column vector).
-    /// </summary>
     public Matrix LastPreActivation { get; private set; }
 
-    /// <summary>
+
     /// Initializes a new instance of the <see cref="Layer"/> class.
-    /// </summary>
     /// <param name="inputSize">Number of input neurons (must be > 0).</param>
     /// <param name="outputSize">Number of output neurons (must be > 0).</param>
     /// <param name="activation">Activation function type for this layer.</param>
@@ -115,9 +100,8 @@ public class Layer
         LastPreActivation = Matrix.Zeros(outputSize, 1);
     }
 
-    /// <summary>
+
     /// Performs the forward pass through this layer.
-    /// </summary>
     /// <param name="input">Input matrix of shape [InputSize, 1] (column vector).</param>
     /// <returns>Output matrix of shape [OutputSize, 1] (column vector) after activation.</returns>
     /// <exception cref="ArgumentNullException">Thrown if input is null.</exception>
@@ -148,9 +132,8 @@ public class Layer
         return output;
     }
 
-    /// <summary>
+
     /// Performs the backward pass through this layer, computing gradients.
-    /// </summary>
     /// <param name="gradOutput">Gradient of loss with respect to this layer's output, shape [OutputSize, 1].</param>
     /// <returns>Gradient of loss with respect to this layer's input, shape [InputSize, 1], for previous layer.</returns>
     /// <exception cref="ArgumentNullException">Thrown if gradOutput is null.</exception>
@@ -193,9 +176,8 @@ public class Layer
         return gradInput;
     }
 
-    /// <summary>
+
     /// Updates the layer's weights and biases using the gradients computed during the last backward pass.
-    /// </summary>
     /// <param name="learningRate">Learning rate for the update (must be > 0).</param>
     /// <exception cref="ArgumentException">Thrown if learningRate is not positive.</exception>
     /// <exception cref="InvalidOperationException">Thrown if Backward has not been called yet.</exception>
@@ -219,9 +201,8 @@ public class Layer
         }
     }
 
-    /// <summary>
+
     /// Gets the weight gradients computed during the last backward pass.
-    /// </summary>
     /// <returns>Weight gradients matrix of shape [OutputSize, InputSize].</returns>
     /// <exception cref="InvalidOperationException">Thrown if Backward has not been called yet.</exception>
     public Matrix GetWeightGradients()
@@ -231,9 +212,8 @@ public class Layer
         return new Matrix(_weightGradients.Rows, _weightGradients.Cols, _weightGradients.Data);
     }
 
-    /// <summary>
+
     /// Gets the bias gradients computed during the last backward pass.
-    /// </summary>
     /// <returns>Bias gradients matrix of shape [OutputSize, 1].</returns>
     /// <exception cref="InvalidOperationException">Thrown if Backward has not been called yet.</exception>
     public Matrix GetBiasGradients()

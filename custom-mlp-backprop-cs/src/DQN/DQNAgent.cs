@@ -2,88 +2,56 @@ namespace custom_mlp_backprop_cs.DQN;
 
 using custom_mlp_backprop_cs.NN;
 
-/// <summary>
 /// Deep Q-Network (DQN) Agent for stock trading.
 /// Implements epsilon-greedy policy, experience replay, and target network for stable training.
-/// </summary>
 public class DQNAgent
 {
-    /// <summary>
     /// Size of the state vector (number of features).
-    /// </summary>
     public int StateSize { get; }
 
-    /// <summary>
     /// Number of possible actions (3: Buy, Sell, Hold).
-    /// </summary>
     public int ActionSize { get; }
 
-    /// <summary>
     /// Size of the hidden layer in the neural network.
-    /// </summary>
     public int HiddenSize { get; }
 
-    /// <summary>
     /// Learning rate for weight updates.
-    /// </summary>
     public double LearningRate { get; }
 
-    /// <summary>
     /// Discount factor for future rewards (gamma).
-    /// </summary>
     public double Gamma { get; }
 
-    /// <summary>
     /// Current epsilon value for epsilon-greedy exploration.
-    /// </summary>
     public double Epsilon { get; private set; }
 
-    /// <summary>
     /// Minimum epsilon value (exploration floor).
-    /// </summary>
     public double EpsilonMin { get; }
 
-    /// <summary>
     /// Epsilon decay rate per training step.
-    /// </summary>
     public double EpsilonDecay { get; }
 
-    /// <summary>
     /// Frequency (in training steps) to update the target network.
-    /// </summary>
     public int TargetUpdateFrequency { get; }
 
-    /// <summary>
     /// Number of training steps performed.
-    /// </summary>
     public int TrainStepCount { get; private set; }
 
-    /// <summary>
     /// Batch size for training.
-    /// </summary>
     public int BatchSize { get; }
 
-    /// <summary>
     /// The online (main) network that is trained every step.
-    /// </summary>
     public MLP OnlineNetwork { get; }
 
-    /// <summary>
     /// The target network used for stable TD target computation.
     /// Updated periodically from the online network.
-    /// </summary>
     public MLP TargetNetwork { get; }
 
-    /// <summary>
     /// Experience replay buffer.
-    /// </summary>
     public ReplayBuffer ReplayBuffer { get; }
 
     private readonly Random _rng;
 
-    /// <summary>
     /// Initializes a new instance of the <see cref="DQNAgent"/> class.
-    /// </summary>
     /// <param name="stateSize">Size of the state vector (number of features, typically 6).</param>
     /// <param name="actionSize">Number of possible actions (default: 3 for Buy/Sell/Hold).</param>
     /// <param name="hiddenSize">Size of the hidden layer (default: 64).</param>
@@ -157,9 +125,9 @@ public class DQNAgent
         ReplayBuffer = new ReplayBuffer(bufferCapacity);
     }
 
-    /// <summary>
+
     /// Selects an action using epsilon-greedy policy.
-    /// </summary>
+
     /// <param name="state">Current state as a double array.</param>
     /// <returns>Action index: 0=Buy, 1=Sell, 2=Hold.</returns>
     /// <exception cref="ArgumentNullException">Thrown if state is null.</exception>
@@ -192,9 +160,9 @@ public class DQNAgent
         return bestAction;
     }
 
-    /// <summary>
+
     /// Selects an action using epsilon-greedy policy (Matrix version).
-    /// </summary>
+
     /// <param name="state">Current state as a column vector matrix.</param>
     /// <returns>Action index: 0=Buy, 1=Sell, 2=Hold.</returns>
     public int SelectAction(Matrix state)
@@ -212,10 +180,9 @@ public class DQNAgent
         return SelectAction(stateArray);
     }
 
-    /// <summary>
     /// Performs a training step on a batch sampled from the replay buffer.
     /// Implements Double DQN: online network selects actions, target network evaluates.
-    /// </summary>
+
     /// <param name="batchSize">Batch size (default: uses agent's BatchSize).</param>
     /// <returns>Average TD loss for the batch, or 0 if buffer has insufficient samples.</returns>
     public double TrainStep(int? batchSize = null)
@@ -279,50 +246,45 @@ public class DQNAgent
         return totalLoss / states.Length;
     }
 
-    /// <summary>
+
     /// Updates the target network by copying weights from the online network.
-    /// </summary>
     public void UpdateTargetNetwork()
     {
         TargetNetwork.CopyWeightsFrom(OnlineNetwork);
     }
 
-    /// <summary>
     /// Decays epsilon towards the minimum value.
-    /// </summary>
     public void DecayEpsilon()
     {
         Epsilon = Math.Max(EpsilonMin, Epsilon * EpsilonDecay);
     }
 
-    /// <summary>
+
     /// Sets epsilon to a specific value (e.g., for evaluation with pure exploitation).
-    /// </summary>
+
     /// <param name="epsilon">New epsilon value, clamped to [EpsilonMin, 1].</param>
     public void SetEpsilon(double epsilon)
     {
         Epsilon = Math.Max(EpsilonMin, Math.Min(1.0, epsilon));
     }
 
-    /// <summary>
+
     /// Adds an experience to the replay buffer.
-    /// </summary>
+
     /// <param name="experience">The experience to store.</param>
     public void Remember(Experience experience)
     {
         ReplayBuffer.Add(experience);
     }
 
-    /// <summary>
     /// Gets Q-values for a state (for evaluation/debugging).
-    /// </summary>
+    
     /// <param name="state">Input state as a double array.</param>
     /// <returns>Array of Q-values for each action.</returns>
     public double[] GetQValues(double[] state) => OnlineNetwork.GetQValues(state);
 
-    /// <summary>
     /// Gets Q-values for a state (Matrix version).
-    /// </summary>
+
     /// <param name="state">Input state as a column vector matrix.</param>
     /// <returns>Matrix of Q-values.</returns>
     public Matrix GetQValues(Matrix state) => OnlineNetwork.GetQValues(state);

@@ -3,9 +3,7 @@ namespace custom_mlp_backprop_cs.Training;
 using custom_mlp_backprop_cs.DQN;
 using custom_mlp_backprop_cs.Env;
 
-/// <summary>
 /// Training history record containing all metrics from a training run.
-/// </summary>
 /// <param name="EpisodeReturns">Cumulative return for each episode.</param>
 /// <param name="EpisodeLosses">Average TD loss for each episode.</param>
 /// <param name="EpsilonHistory">Epsilon value at each episode.</param>
@@ -21,50 +19,40 @@ public readonly record struct TrainingHistory(
     double BestReturn
 );
 
-/// <summary>
 /// Orchestrates the DQN training loop for stock trading.
 /// Manages episodes, logging, and evaluation.
-/// </summary>
 public class TrainingLoop
 {
-    /// <summary>
+
     /// Total number of training episodes.
-    /// </summary>
     public int Episodes { get; }
 
-    /// <summary>
+
     /// Interval (in episodes) at which to log training progress.
-    /// </summary>
     public int LogInterval { get; }
 
-    /// <summary>
+
     /// The DQN agent being trained.
-    /// </summary>
     public DQNAgent Agent { get; }
 
-    /// <summary>
+
     /// The training environment.
-    /// </summary>
     public StockEnvironment Environment { get; }
 
-    /// <summary>
+
     /// Cumulative return for each episode.
-    /// </summary>
     public List<double> EpisodeReturns { get; } = new();
 
-    /// <summary>
+
     /// Average TD loss for each episode.
-    /// </summary>
     public List<double> EpisodeLosses { get; } = new();
 
-    /// <summary>
+
     /// Epsilon value at each episode.
-    /// </summary>
     public List<double> EpsilonHistory { get; } = new();
 
-    /// <summary>
+
     /// Initializes a new training loop.
-    /// </summary>
     /// <param name="agent">The DQN agent to train.</param>
     /// <param name="environment">The training environment.</param>
     /// <param name="episodes">Total number of episodes (default: 1000).</param>
@@ -89,9 +77,8 @@ public class TrainingLoop
         LogInterval = logInterval;
     }
 
-    /// <summary>
+
     /// Runs the complete training loop for all episodes.
-    /// </summary>
     /// <returns>Training history containing all metrics.</returns>
     public TrainingHistory Run()
     {
@@ -135,9 +122,8 @@ public class TrainingLoop
             EpisodeReturns[^1], EpisodeLosses[^1], bestReturn);
     }
 
-    /// <summary>
+
     /// Runs a single training episode.
-    /// </summary>
     /// <returns>Tuple of (cumulative return, average TD loss).</returns>
     public (double Return, double Loss) RunEpisode()
     {
@@ -182,9 +168,9 @@ public class TrainingLoop
         return (cumReturn, avgLoss);
     }
 
-    /// <summary>
+
     /// Evaluates the agent on a test environment without exploration or training.
-    /// </summary>
+
     /// <param name="testEnvironment">The test environment to evaluate on.</param>
     /// <returns>Tuple of (cumulative return, portfolio values at each step).</returns>
     /// <exception cref="ArgumentNullException">Thrown if testEnvironment is null.</exception>

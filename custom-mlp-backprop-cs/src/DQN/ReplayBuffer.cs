@@ -1,28 +1,23 @@
 namespace custom_mlp_backprop_cs.DQN;
 
-/// <summary>
+
 /// Ring buffer implementation for experience replay in DQN.
 /// Stores transitions and supports random batch sampling for training.
-/// </summary>
 public class ReplayBuffer
 {
     private readonly Experience[] _buffer;
     private int _head;
     private int _count;
 
-    /// <summary>
+
     /// Gets the maximum capacity of the replay buffer.
-    /// </summary>
     public int Capacity { get; }
 
-    /// <summary>
     /// Gets the current number of experiences stored in the buffer.
-    /// </summary>
     public int Count => _count;
 
-    /// <summary>
     /// Initializes a new instance of the <see cref="ReplayBuffer"/> class.
-    /// </summary>
+
     /// <param name="capacity">The maximum number of experiences to store.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when capacity is not positive.</exception>
     public ReplayBuffer(int capacity)
@@ -38,9 +33,8 @@ public class ReplayBuffer
         _count = 0;
     }
 
-    /// <summary>
     /// Adds an experience to the buffer, overwriting the oldest when full (ring buffer behavior).
-    /// </summary>
+
     /// <param name="experience">The experience to add.</param>
     public void Add(Experience experience)
     {
@@ -52,9 +46,9 @@ public class ReplayBuffer
         }
     }
 
-    /// <summary>
+
     /// Samples a random batch of experiences from the buffer.
-    /// </summary>
+
     /// <param name="batchSize">The number of experiences to sample.</param>
     /// <param name="rng">Optional random number generator. If null, a new instance is created.</param>
     /// <returns>
@@ -121,9 +115,8 @@ public class ReplayBuffer
         return (states, actions, rewards, nextStates, dones);
     }
 
-    /// <summary>
+
     /// Clears all experiences from the buffer.
-    /// </summary>
     public void Clear()
     {
         _head = 0;

@@ -2,20 +2,20 @@ using custom_mlp_backprop_cs.Models;
 
 namespace custom_mlp_backprop_cs.Data;
 
-/// <summary>
+
 /// Computes technical features from raw stock data points for use in ML models.
-/// </summary>
 public static class FeatureEngineer
 {
-    /// <summary>
     /// Computes a set of 6 features for each timestep from a chronologically sorted list of stock data points.
-    /// </summary>
+
     /// <param name="dataPoints">Chronologically sorted list of stock data points (oldest first).</param>
+
     /// <returns>
     /// A jagged array of shape (N, 6) where N = dataPoints.Count.
     /// Features per row: [SMA-5, SMA-20, Volatility-20, Close, CashPlaceholder, HoldingsPlaceholder].
     /// NaN values from insufficient lookback data are forward-filled with the first valid value.
     /// </returns>
+
     /// <exception cref="ArgumentNullException">Thrown if dataPoints is null.</exception>
     /// <exception cref="ArgumentException">Thrown if dataPoints is empty.</exception>
     public static double[][] ComputeFeatures(List<StockDataPoint> dataPoints)
@@ -84,9 +84,8 @@ public static class FeatureEngineer
         return features;
     }
 
-    /// <summary>
     /// Forward-fills NaN values in the feature array with the first valid value for each column.
-    /// </summary>
+
     /// <param name="features">Jagged array of shape (N, F) to fill in place.</param>
     private static void ForwardFillNaN(double[][] features)
     {
@@ -130,14 +129,15 @@ public static class FeatureEngineer
         }
     }
 
-    /// <summary>
+
     /// Computes the Simple Moving Average (SMA) for the given window ending at index <paramref name="endIndex"/> (inclusive).
     /// Uses expanding window for indices < windowSize - 1 (i.e., averages all available data up to that point).
     /// Returns NaN if no data is available.
-    /// </summary>
+
     /// <param name="values">Array of values to compute SMA over.</param>
     /// <param name="endIndex">The ending index (inclusive) for the SMA window.</param>
     /// <param name="windowSize">The SMA window size (e.g., 5 for SMA-5, 20 for SMA-20).</param>
+
     /// <returns>The SMA value, or double.NaN if insufficient data.</returns>
     private static double ComputeSMA(double[] values, int endIndex, int windowSize)
     {
@@ -171,14 +171,15 @@ public static class FeatureEngineer
         return sum / validCount;
     }
 
-    /// <summary>
+
     /// Computes the rolling standard deviation (volatility) of daily returns for the given window.
     /// Uses expanding window for indices < windowSize - 1.
     /// Returns NaN if fewer than 2 valid return values are available in the window.
-    /// </summary>
+
     /// <param name="dailyReturns">Array of daily returns (first element is NaN).</param>
     /// <param name="endIndex">The ending index (inclusive) for the volatility window.</param>
     /// <param name="windowSize">The volatility window size (e.g., 20 for Volatility-20).</param>
+
     /// <returns>The standard deviation of returns in the window, or double.NaN if insufficient data.</returns>
     private static double ComputeVolatility(double[] dailyReturns, int endIndex, int windowSize)
     {

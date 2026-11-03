@@ -1,56 +1,47 @@
 namespace custom_mlp_backprop_cs.Env;
 
-/// <summary>
+
 /// Stock trading environment for DQN agent.
 /// Wraps normalized feature data and manages episode lifecycle.
-/// </summary>
 public class StockEnvironment
 {
-    /// <summary>
+    
     /// Normalized feature data [N, 6] where each row contains:
     /// [SMA5, SMA20, Volatility20, ClosePrice, CashPlaceholder, HoldingsPlaceholder].
     /// The last two columns are placeholders replaced with actual portfolio state.
-    /// </summary>
     public double[][] Features { get; }
 
-    /// <summary>
+    
     /// Raw close prices for portfolio valuation (same length as Features).
-    /// </summary>
     public double[] ClosePrices { get; }
 
-    /// <summary>
+    
     /// Transaction fee as a decimal (e.g., 0.001 = 0.1%).
-    /// </summary>
     public double TransactionFee { get; }
 
-    /// <summary>
+    
     /// Risk aversion coefficient for reward calculation.
-    /// </summary>
     public double RiskAversion { get; }
 
-    /// <summary>
+    
     /// Initial cash balance.
-    /// </summary>
     public double InitialCash { get; }
 
-    /// <summary>
+    
     /// Current step index in the episode (0-based).
-    /// </summary>
     public int CurrentStep { get; private set; }
 
-    /// <summary>
+    
     /// Portfolio manager handling cash, holdings, and trade execution.
-    /// </summary>
     public Portfolio Portfolio { get; }
 
-    /// <summary>
+    
     /// Maximum portfolio value observed during the current episode (for drawdown calculation).
-    /// </summary>
     public double MaxPortfolioValue { get; private set; }
 
-    /// <summary>
+    
     /// Initializes a new stock trading environment.
-    /// </summary>
+
     /// <param name="features">Normalized feature data [N, 6] from FeatureEngineer.</param>
     /// <param name="closePrices">Raw close prices (same length as features).</param>
     /// <param name="transactionFee">Transaction fee as a decimal (default: 0.001 = 0.1%).</param>
@@ -93,9 +84,9 @@ public class StockEnvironment
         CurrentStep = 0;
     }
 
-    /// <summary>
+    
     /// Resets the environment to the initial state.
-    /// </summary>
+
     /// <returns>Initial TradingState with first step's features and portfolio state.</returns>
     public TradingState Reset()
     {
@@ -106,9 +97,9 @@ public class StockEnvironment
         return CreateStateFromStep(0);
     }
 
-    /// <summary>
+    
     /// Executes one environment step with the given action.
-    /// </summary>
+
     /// <param name="action">Action to execute: 0 = Buy, 1 = Sell, 2 = Hold.</param>
     /// <returns>
     /// A tuple containing:
@@ -175,9 +166,9 @@ public class StockEnvironment
         return (nextState, reward, done);
     }
 
-    /// <summary>
+    
     /// Gets the current total portfolio value.
-    /// </summary>
+
     /// <returns>Total portfolio value = Cash + Holdings * currentPrice.</returns>
     public double GetPortfolioValue()
     {
@@ -187,9 +178,9 @@ public class StockEnvironment
         return Portfolio.GetValue(ClosePrices[CurrentStep]);
     }
 
-    /// <summary>
+    
     /// Creates a TradingState from the given step index using current portfolio values.
-    /// </summary>
+
     /// <param name="step">Step index to create state from.</param>
     /// <returns>TradingState with features from step and normalized portfolio values.</returns>
     private TradingState CreateStateFromStep(int step)

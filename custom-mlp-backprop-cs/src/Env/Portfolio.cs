@@ -1,33 +1,28 @@
 namespace custom_mlp_backprop_cs.Env;
 
-/// <summary>
+
 /// Manages a trading portfolio including cash balance, stock holdings, and trade execution.
 /// </summary>
 public class Portfolio
 {
-    /// <summary>
+    
     /// Current cash balance available for trading.
-    /// </summary>
     public double Cash { get; private set; }
 
-    /// <summary>
+    
     /// Number of shares currently held.
-    /// </summary>
     public double Holdings { get; private set; }
 
-    /// <summary>
+    
     /// Initial cash balance when the portfolio was created.
-    /// </summary>
     public double InitialCash { get; }
 
-    /// <summary>
+    
     /// Transaction fee as a decimal (e.g., 0.001 = 0.1%).
-    /// </summary>
     public double TransactionFee { get; }
 
-    /// <summary>
+    
     /// Initializes a new portfolio with the specified starting cash and transaction fee.
-    /// </summary>
     /// <param name="initialCash">Starting cash balance (default: 10000.0).</param>
     /// <param name="transactionFee">Transaction fee as a decimal (default: 0.001 = 0.1%).</param>
     /// <exception cref="ArgumentException">Thrown if initialCash is negative or transactionFee is negative.</exception>
@@ -44,9 +39,8 @@ public class Portfolio
         Holdings = 0.0;
     }
 
-    /// <summary>
+    
     /// Calculates the current total portfolio value at the given price.
-    /// </summary>
     /// <param name="currentPrice">Current stock price per share.</param>
     /// <returns>Total portfolio value = Cash + Holdings * currentPrice.</returns>
     /// <exception cref="ArgumentException">Thrown if currentPrice is negative.</exception>
@@ -58,9 +52,8 @@ public class Portfolio
         return Cash + Holdings * currentPrice;
     }
 
-    /// <summary>
+    
     /// Executes a trading action (Buy, Sell, or Hold) at the current price.
-    /// </summary>
     /// <param name="action">Action to execute: 0 = Buy, 1 = Sell, 2 = Hold.</param>
     /// <param name="currentPrice">Current stock price per share.</param>
     /// <returns>
@@ -87,18 +80,16 @@ public class Portfolio
         };
     }
 
-    /// <summary>
+    
     /// Resets the portfolio to its initial state (initial cash, zero holdings).
-    /// </summary>
     public void Reset()
     {
         Cash = InitialCash;
         Holdings = 0.0;
     }
 
-    /// <summary>
+    
     /// Executes a buy order: spends all available cash (minus fee) to buy shares.
-    /// </summary>
     private (bool executed, double cost) ExecuteBuy(double currentPrice)
     {
         if (Cash <= 0 || currentPrice <= 0)
@@ -125,9 +116,8 @@ public class Portfolio
         return (true, -totalCost);
     }
 
-    /// <summary>
+    
     /// Executes a sell order: sells all holdings at current price (minus fee).
-    /// </summary>
     private (bool executed, double cost) ExecuteSell(double currentPrice)
     {
         if (Holdings <= 0 || currentPrice <= 0)

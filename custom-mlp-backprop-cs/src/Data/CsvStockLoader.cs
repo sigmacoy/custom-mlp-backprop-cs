@@ -3,14 +3,11 @@ using custom_mlp_backprop_cs.Models;
 
 namespace custom_mlp_backprop_cs.Data;
 
-/// <summary>
 /// Provides functionality to load stock data from CSV files.
-/// </summary>
 public static class CsvStockLoader
 {
-    /// <summary>
     /// Loads stock data points from a CSV file.
-    /// </summary>
+
     /// <param name="path">The path to the CSV file.</param>
     /// <returns>A chronologically ordered list of <see cref="StockDataPoint"/>.</returns>
     /// <exception cref="FileNotFoundException">Thrown when the file does not exist.</exception>

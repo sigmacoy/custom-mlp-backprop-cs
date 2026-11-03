@@ -1,14 +1,11 @@
 namespace custom_mlp_backprop_cs.Training;
 
-/// <summary>
 /// Provides financial metrics calculations for portfolio evaluation.
 /// Includes cumulative return, Sharpe ratio, and maximum drawdown calculations.
-/// </summary>
 public static class MetricsCalculator
 {
-    /// <summary>
+
     /// Calculates cumulative return from a series of portfolio values.
-    /// </summary>
     /// <param name="portfolioValues">Time series of portfolio values.</param>
     /// <returns>Cumulative return as decimal (e.g., 0.15 = 15% gain).</returns>
     /// <exception cref="ArgumentException">Thrown if portfolioValues is null or empty.</exception>
@@ -29,11 +26,11 @@ public static class MetricsCalculator
         return (finalValue - initialValue) / initialValue;
     }
 
-    /// <summary>
+
     /// Calculates Sharpe Ratio from a series of returns.
     /// Sharpe = (mean(returns) - risk_free_rate) / std(returns) * sqrt(252)
     /// Assumes daily returns, annualizes with sqrt(252).
-    /// </summary>
+
     /// <param name="returns">Daily returns (portfolioValue[t] / portfolioValue[t-1] - 1).</param>
     /// <param name="riskFreeRate">Annual risk-free rate (default 0.02 = 2%).</param>
     /// <returns>Annualized Sharpe Ratio.</returns>
@@ -73,9 +70,9 @@ public static class MetricsCalculator
         return sharpe;
     }
 
-    /// <summary>
+
     /// Calculates Maximum Drawdown from a series of portfolio values.
-    /// </summary>
+
     /// <param name="portfolioValues">Time series of portfolio values.</param>
     /// <returns>Maximum drawdown as decimal (e.g., 0.20 = 20% max drawdown).</returns>
     /// <exception cref="ArgumentException">Thrown if portfolioValues is null or empty.</exception>
@@ -111,9 +108,8 @@ public static class MetricsCalculator
         return maxDD;
     }
 
-    /// <summary>
+
     /// Calculates all metrics at once from portfolio values.
-    /// </summary>
     /// <param name="portfolioValues">Time series of portfolio values.</param>
     /// <param name="riskFreeRate">Annual risk-free rate for Sharpe.</param>
     /// <returns>Tuple of (cumulativeReturn, sharpeRatio, maxDrawdown).</returns>

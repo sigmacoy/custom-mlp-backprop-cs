@@ -1,39 +1,31 @@
 namespace custom_mlp_backprop_cs.NN;
 
-/// <summary>
 /// Multi-Layer Perceptron (MLP) with one hidden layer for DQN-based stock trading.
 /// Architecture: Input (6 features) → Hidden (ReLU) → Output (3 actions: Buy/Sell/Hold, Linear).
-/// </summary>
 public class MLP
 {
-    /// <summary>
+
     /// Gets the number of input neurons (state features, typically 6 for stock trading).
-    /// </summary>
     public int InputSize { get; }
 
-    /// <summary>
+
     /// Gets the number of hidden neurons.
-    /// </summary>
     public int HiddenSize { get; }
 
-    /// <summary>
+
     /// Gets the number of output neurons (always 3 for Buy/Sell/Hold actions).
-    /// </summary>
     public int OutputSize { get; }
 
-    /// <summary>
+
     /// Gets the hidden layer (InputSize → HiddenSize, ReLU activation).
-    /// </summary>
     public Layer HiddenLayer { get; }
 
-    /// <summary>
+
     /// Gets the output layer (HiddenSize → OutputSize, Linear activation).
-    /// </summary>
     public Layer OutputLayer { get; }
 
-    /// <summary>
+
     /// Initializes a new instance of the <see cref="MLP"/> class.
-    /// </summary>
     /// <param name="inputSize">Number of input features (must be > 0, typically 6 for stock state).</param>
     /// <param name="hiddenSize">Number of hidden neurons (must be > 0).</param>
     /// <param name="outputSize">Number of output actions (default 3 for Buy/Sell/Hold, must be > 0).</param>
@@ -65,9 +57,8 @@ public class MLP
         OutputLayer = new Layer(hiddenSize, outputSize, ActivationType.Linear, outputRng);
     }
 
-    /// <summary>
+
     /// Performs the forward pass through the network: state vector (6 features) → Q-values (3 actions).
-    /// </summary>
     /// <param name="input">Input matrix of shape [InputSize, 1] representing the state.</param>
     /// <returns>Output matrix of shape [OutputSize, 1] containing Q-values for each action.</returns>
     /// <exception cref="ArgumentNullException">Thrown if input is null.</exception>
@@ -86,9 +77,8 @@ public class MLP
         return output;
     }
 
-    /// <summary>
+
     /// Performs the forward pass through the network using a double array.
-    /// </summary>
     /// <param name="state">Input state array of length InputSize (typically 6 features).</param>
     /// <returns>Array of length OutputSize (3) containing Q-values for Buy/Sell/Hold.</returns>
     /// <exception cref="ArgumentNullException">Thrown if state is null.</exception>
@@ -113,10 +103,9 @@ public class MLP
         return result;
     }
 
-    /// <summary>
+
     /// Performs the backward pass for DQN training, computing TD loss and gradients for ONE action.
     /// This implements the Bellman equation gradient: computes loss for the action taken only.
-    /// </summary>
     /// <param name="targetQ">Target Q-value from the Bellman equation: reward + gamma * max(Q_target(next_state)).</param>
     /// <param name="actionTaken">Index of the action that was taken (0=Buy, 1=Sell, 2=Hold).</param>
     /// <returns>The TD loss: 0.5 * (Q_pred - Q_target)^2 for the action taken.</returns>
@@ -147,9 +136,8 @@ public class MLP
         return loss;
     }
 
-    /// <summary>
+
     /// Updates all layer weights and biases using the gradients computed during the last backward pass.
-    /// </summary>
     /// <param name="learningRate">Learning rate for the update (must be > 0).</param>
     /// <exception cref="ArgumentException">Thrown if learningRate is not positive.</exception>
     /// <exception cref="InvalidOperationException">Thrown if Backward has not been called yet.</exception>
@@ -162,24 +150,21 @@ public class MLP
         OutputLayer.UpdateWeights(learningRate);
     }
 
-    /// <summary>
+
     /// Gets Q-values for a state (convenience method, same as Forward).
-    /// </summary>
     /// <param name="state">Input state array of length InputSize.</param>
     /// <returns>Array of length OutputSize containing Q-values for each action.</returns>
     public double[] GetQValues(double[] state) => Forward(state);
 
-    /// <summary>
+
     /// Gets Q-values for a state (convenience method, same as Forward).
-    /// </summary>
     /// <param name="state">Input state matrix of shape [InputSize, 1].</param>
     /// <returns>Matrix of shape [OutputSize, 1] containing Q-values for each action.</returns>
     public Matrix GetQValues(Matrix state) => Forward(state);
 
-    /// <summary>
+
     /// Creates a deep copy of this MLP with the same architecture and weights.
     /// Used for creating target networks in DQN.
-    /// </summary>
     /// <param name="rng">Optional random number generator. If null, a new instance is created.</param>
     /// <returns>A new MLP instance with identical weights and architecture.</returns>
     public MLP Clone(Random? rng = null)
@@ -192,10 +177,9 @@ public class MLP
         return clone;
     }
 
-    /// <summary>
+
     /// Copies weights and biases from another MLP (source) into this MLP.
     /// Used for updating target network from the main network in DQN.
-    /// </summary>
     /// <param name="source">The source MLP to copy weights from. Must have identical architecture.</param>
     /// <exception cref="ArgumentNullException">Thrown if source is null.</exception>
     /// <exception cref="ArgumentException">Thrown if source architecture doesn't match this MLP.</exception>
@@ -213,9 +197,8 @@ public class MLP
         CopyWeightsTo(source);
     }
 
-    /// <summary>
+
     /// Internal helper to copy weights from this MLP to another MLP.
-    /// </summary>
     /// <param name="target">The target MLP to copy weights to.</param>
     private void CopyWeightsTo(MLP target)
     {

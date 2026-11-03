@@ -1,35 +1,26 @@
 namespace custom_mlp_backprop_cs.Data;
 
-/// <summary>
+
 /// Min-Max normalizer that scales features to the [0, 1] range.
 /// Fits on training data (computes min/max per feature column), then transforms both train and test data.
-/// </summary>
+
 public sealed class MinMaxNormalizer
 {
-    /// <summary>
     /// Minimum value per feature column (computed during Fit).
-    /// </summary>
     public double[]? MinValues { get; private set; }
 
-    /// <summary>
     /// Maximum value per feature column (computed during Fit).
-    /// </summary>
     public double[]? MaxValues { get; private set; }
 
-    /// <summary>
     /// Number of features (columns) the normalizer was fitted on.
-    /// </summary>
     public int FeatureCount => MinValues?.Length ?? 0;
 
-    /// <summary>
     /// Indicates whether the normalizer has been fitted.
-    /// </summary>
     public bool IsFitted => MinValues != null && MaxValues != null;
 
-    /// <summary>
     /// Computes the minimum and maximum values for each feature column from the training data.
     /// NaN values are ignored during min/max computation.
-    /// </summary>
+
     /// <param name="trainData">Training data as a jagged array of shape (N, F) where N = samples, F = features.</param>
     /// <exception cref="ArgumentNullException">Thrown if trainData is null.</exception>
     /// <exception cref="ArgumentException">Thrown if trainData is empty or rows have inconsistent lengths.</exception>
@@ -103,12 +94,13 @@ public sealed class MinMaxNormalizer
         MaxValues = maxValues;
     }
 
-    /// <summary>
     /// Transforms the input data using the fitted min/max values, scaling each feature to [0, 1].
     /// NaN values are preserved as NaN in the output.
-    /// </summary>
+    /// 
     /// <param name="data">Data to transform as a jagged array of shape (N, F).</param>
+
     /// <returns>Normalized data with values in [0, 1] (NaN preserved).</returns>
+
     /// <exception cref="InvalidOperationException">Thrown if the normalizer has not been fitted.</exception>
     /// <exception cref="ArgumentNullException">Thrown if data is null.</exception>
     /// <exception cref="ArgumentException">Thrown if data is empty or feature count doesn't match fitted normalizer.</exception>
@@ -161,9 +153,8 @@ public sealed class MinMaxNormalizer
         return result;
     }
 
-    /// <summary>
     /// Convenience method that fits the normalizer on the training data and immediately transforms it.
-    /// </summary>
+
     /// <param name="trainData">Training data as a jagged array of shape (N, F).</param>
     /// <returns>Normalized training data with values in [0, 1].</returns>
     /// <exception cref="ArgumentNullException">Thrown if trainData is null.</exception>
@@ -175,10 +166,9 @@ public sealed class MinMaxNormalizer
         return Transform(trainData);
     }
 
-    /// <summary>
     /// Inverse transforms normalized data back to the original scale.
     /// Useful for interpreting model predictions in original units.
-    /// </summary>
+
     /// <param name="normalizedData">Normalized data in [0, 1] range.</param>
     /// <returns>Data in original scale.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the normalizer has not been fitted.</exception>

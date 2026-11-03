@@ -1,8 +1,8 @@
 namespace custom_mlp_backprop_cs.Models;
 
-/// <summary>
+
 /// Represents a single OHLCV data point for a stock.
-/// </summary>
+
 /// <param name="Date">The trading date.</param>
 /// <param name="Open">Opening price.</param>
 /// <param name="High">Highest price during the day.</param>
