@@ -1,2 +1,10 @@
 .DS_Store
-CLAUDE.mdcustom-mlp-backprop-cs/obj/
+CLAUDE.md
+custom-mlp-backprop-cs/obj/
+custom-mlp-backprop-cs/bin/
+
+# JetBrains Rider / IntelliJ
+.idea/
+.idea/.idea.custom-mlp-backprop-cs/.idea/
+
+.venv/

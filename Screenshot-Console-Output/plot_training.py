@@ -6,13 +6,25 @@ Reads training_log.csv (exported from C# TrainingLoop) and generates:
 1. TD Loss vs Episode
 2. Cumulative Return vs Episode
 3. Portfolio Value over Test Period (placeholder - reads test_portfolio.csv if exists)
+
+
+How to Run this file
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r Screenshot-Console-Output/requirements.txt
+
+python Screenshot-Console-Output/plot_training.py
 """
 
 import os
 import sys
+import logging
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')  # Non-interactive backend for headless environments
+logging.getLogger('matplotlib.font_manager').setLevel(logging.ERROR)
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -75,8 +87,8 @@ def plot_td_loss(df: pd.DataFrame, output_path: str):
     ax.plot(df['Episode'], df['TD_Loss'],
             color=COLORS['primary'], linewidth=1.5, label='TD Loss')
 
-    ax.set_xlabel('Episode', fontsize=12, fontweight='medium')
-    ax.set_ylabel('TD Loss', fontsize=12, fontweight='medium')
+    ax.set_xlabel('Episode', fontsize=12, fontweight='normal')
+    ax.set_ylabel('TD Loss', fontsize=12, fontweight='normal')
     ax.set_title('TD Loss vs Episode', fontsize=14, fontweight='bold', pad=15)
 
     ax.grid(True, alpha=0.3, color=COLORS['grid'])
@@ -99,8 +111,8 @@ def plot_cumulative_return(df: pd.DataFrame, output_path: str):
     ax.plot(df['Episode'], returns_pct,
             color=COLORS['accent'], linewidth=1.5, label='Cumulative Return')
 
-    ax.set_xlabel('Episode', fontsize=12, fontweight='medium')
-    ax.set_ylabel('Cumulative Return (%)', fontsize=12, fontweight='medium')
+    ax.set_xlabel('Episode', fontsize=12, fontweight='normal')
+    ax.set_ylabel('Cumulative Return (%)', fontsize=12, fontweight='normal')
     ax.set_title('Cumulative Return vs Episode', fontsize=14, fontweight='bold', pad=15)
 
     ax.grid(True, alpha=0.3, color=COLORS['grid'])
@@ -139,8 +151,8 @@ def plot_portfolio_value(test_df: pd.DataFrame | None, output_path: str):
         ax.plot(test_df['Step'], test_df['Portfolio_Value'],
                 color=COLORS['secondary'], linewidth=1.5, label='Portfolio Value')
 
-        ax.set_xlabel('Time Step', fontsize=12, fontweight='medium')
-        ax.set_ylabel('Portfolio Value ($)', fontsize=12, fontweight='medium')
+        ax.set_xlabel('Time Step', fontsize=12, fontweight='normal')
+        ax.set_ylabel('Portfolio Value ($)', fontsize=12, fontweight='normal')
         ax.set_title('Portfolio Value over Test Period', fontsize=14, fontweight='bold', pad=15)
 
         ax.grid(True, alpha=0.3, color=COLORS['grid'])
@@ -154,11 +166,25 @@ def plot_portfolio_value(test_df: pd.DataFrame | None, output_path: str):
     print(f"Saved: {output_path}")
 
 
+def find_file(filename: str, script_dir: str) -> str:
+    """Search common locations for the CSV file."""
+    candidates = [
+        os.path.join(script_dir, filename),
+        os.path.join(os.getcwd(), filename),
+        os.path.join(os.path.dirname(script_dir), filename),
+        os.path.join(os.path.dirname(script_dir), 'custom-mlp-backprop-cs', filename)
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+    return os.path.join(script_dir, filename)
+
+
 def main():
-    # Paths relative to script location
+    # Paths relative to script location or project root
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    training_log_path = os.path.join(script_dir, 'training_log.csv')
-    test_portfolio_path = os.path.join(script_dir, 'test_portfolio.csv')
+    training_log_path = find_file('training_log.csv', script_dir)
+    test_portfolio_path = find_file('test_portfolio.csv', script_dir)
 
     output_dir = script_dir
     td_loss_path = os.path.join(output_dir, 'td_loss.png')
@@ -175,8 +201,6 @@ def main():
         test_df = load_test_portfolio(test_portfolio_path)
         if test_df is not None:
             print(f"Loaded test portfolio with {len(test_df)} steps")
-        else:
-            print("No test_portfolio.csv found - creating placeholder for portfolio plot")
 
         # Generate plots
         plot_td_loss(df, td_loss_path)

@@ -1,4 +1,4 @@
-﻿using custom_mlp_backprop_cs.Data;
+using custom_mlp_backprop_cs.Data;
 using custom_mlp_backprop_cs.DQN;
 using custom_mlp_backprop_cs.Env;
 using custom_mlp_backprop_cs.NN;
@@ -116,6 +116,12 @@ Console.WriteLine();
 Console.WriteLine("Evaluating on test set...");
 var (testReturn, testPortfolioValues) = trainingLoop.Evaluate(testEnv);
 var (testCumReturn, testSharpe, testMaxDD) = MetricsCalculator.CalculateAll(testPortfolioValues);
+
+// Export test portfolio values for visualization
+File.WriteAllLines("test_portfolio.csv",
+    new[] { "Step,Portfolio_Value" }
+        .Concat(testPortfolioValues.Select((v, i) => $"{i},{v:F2}")));
+Console.WriteLine("Test portfolio values exported to test_portfolio.csv");
 
 Console.WriteLine();
 Console.WriteLine("=".PadRight(80, '='));
