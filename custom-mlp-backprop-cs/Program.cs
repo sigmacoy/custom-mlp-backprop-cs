@@ -107,6 +107,9 @@ var trainingLoop = new TrainingLoop(
 
 TrainingHistory history = trainingLoop.Run();
 
+TrainingLoop.ExportToCsv(history, "training_log.csv");
+Console.WriteLine("Training log exported to training_log.csv");
+
 Console.WriteLine();
 
 // 9. Evaluate on test set

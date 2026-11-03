@@ -2,6 +2,7 @@ namespace custom_mlp_backprop_cs.Training;
 
 using custom_mlp_backprop_cs.DQN;
 using custom_mlp_backprop_cs.Env;
+using System.IO;
 
 /// Training history record containing all metrics from a training run.
 /// <param name="EpisodeReturns">Cumulative return for each episode.</param>
@@ -120,6 +121,26 @@ public class TrainingLoop
         return new TrainingHistory(
             EpisodeReturns, EpisodeLosses, EpsilonHistory,
             EpisodeReturns[^1], EpisodeLosses[^1], bestReturn);
+    }
+
+
+    /// Exports the training history to a CSV file for external analysis/plotting.
+    /// <param name="history">The training history to export.</param>
+    /// <param name="filePath">Path to the output CSV file (default: training_log.csv in current directory).</param>
+    /// <exception cref="ArgumentNullException">Thrown if history is null.</exception>
+    public static void ExportToCsv(TrainingHistory history, string filePath = "training_log.csv")
+    {
+        if (history.EpisodeReturns == null || history.EpisodeLosses == null || history.EpsilonHistory == null)
+            throw new ArgumentNullException(nameof(history), "TrainingHistory lists cannot be null");
+
+        int count = history.EpisodeReturns.Count;
+        using var writer = new StreamWriter(filePath);
+        writer.WriteLine("Episode,TD_Loss,Cumulative_Return,Epsilon");
+
+        for (int i = 0; i < count; i++)
+        {
+            writer.WriteLine($"{i + 1},{history.EpisodeLosses[i]:F6},{history.EpisodeReturns[i]:F6},{history.EpsilonHistory[i]:F6}");
+        }
     }
 
 
