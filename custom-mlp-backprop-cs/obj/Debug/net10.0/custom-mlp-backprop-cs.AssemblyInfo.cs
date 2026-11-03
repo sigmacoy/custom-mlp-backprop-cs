@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("custom-mlp-backprop-cs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19c842c874d3bb65c48eded428badcfcd0886cd3")]
 [assembly: System.Reflection.AssemblyProductAttribute("custom-mlp-backprop-cs")]
 [assembly: System.Reflection.AssemblyTitleAttribute("custom-mlp-backprop-cs")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
