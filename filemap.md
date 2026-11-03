@@ -5,7 +5,6 @@
 - `custom-mlp-backprop-cs/` — Project root
   - `custom-mlp-backprop-cs.csproj` — Project config (net10.0)
   - `Program.cs` — Entry point, wires all components
-  - `CLAUDE.md` — Agent instructions
   - `filemap.md` — This file
   - `docs/SPEC.md` — Full specification
   - `docs/PLAN.md` — Task breakdown
@@ -41,5 +40,5 @@ src/
 │   └── TrainingLoop.cs       # Episode loop, logging every 100
 ```
 
-## Legacy (do not use)
-- `Sir-Aliac-Libraries/` — Old .NET 3.5 backprop code (reference only)
+## Legacy (did not use)
+- `Sir-Aliac-Libraries/` — Old .NET 3.5 backprop code (BUT DID reference only)
