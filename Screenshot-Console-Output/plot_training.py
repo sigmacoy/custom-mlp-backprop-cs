@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
+# This generates 3 files: cumulative_return.png, portfolio_value.png, and td_loss.png
 """
 Training visualization script for DQN Stock Trading Agent.
 
